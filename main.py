@@ -1,4 +1,5 @@
 from flask import Flask
+import database as db
 
 app = Flask(__name__)
 
@@ -6,7 +7,9 @@ app = Flask(__name__)
 def hello_world():
     return "<p>Hello, World!</p>"
 
-@app.route("/doongool")
-def hello_doongool():
-    return "<p>Hello, Doongul!</p>"
+if __name__ == "__main__":
+    with app.app_context():
+        db.init_db()
+    app.run(debug=True)
+
 

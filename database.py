@@ -34,6 +34,7 @@ def init_db():
 def get_db():
     if "db" not in g:
         g.db = sqlite3.connect(DB_NAME)
+        g.db.row_factory = sqlite3.Row
     return g.db
 
 
@@ -50,8 +51,10 @@ def get_all_tags():
 
 def insert_tags(name):
     db = get_db()
-    db.execute("insert into tags (name) values (?)", (name,) )
+    res = db.execute("insert into tags (name) values (?) returning *", (name,) )
+    res = res.fetchone()
     db.commit()
+    return res
 
 
 
